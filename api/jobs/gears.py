@@ -110,7 +110,7 @@ def validate_gear_config(gear, config_):
         validator = Draft4Validator(ci)
 
         try:
-            validator.validate(config_)
+            validator.validate(fill_gear_default_values(gear, config_))
         except ValidationError as err:
             key = None
             if len(err.relative_path) > 0:

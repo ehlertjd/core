@@ -21,7 +21,7 @@ from ..validators import InputValidationException, validate_data, verify_payload
 
 from ..auth.apikeys import JobApiKey
 
-from .gears import validate_gear_config, get_gears, get_gear, get_invocation_schema, remove_gear, upsert_gear, suggest_container, get_gear_by_name, check_for_gear_insertion, fill_gear_default_values
+from .gears import validate_gear_config, get_gears, get_gear, get_invocation_schema, remove_gear, upsert_gear, suggest_container, get_gear_by_name, check_for_gear_insertion
 from .jobs import Job, Logs
 from .batch import check_state, update
 from .queue import Queue
@@ -183,8 +183,7 @@ class RulesHandler(base.RequestHandler):
 
         doc['project_id'] = cid
 
-        if 'config' in doc:
-            validate_gear_config(gear, fill_gear_default_values(gear, doc['config']))
+        validate_gear_config(gear, doc.get('config'))
 
         result = config.db.project_rules.insert_one(doc)
         return { '_id': result.inserted_id }
@@ -239,8 +238,7 @@ class RuleHandler(base.RequestHandler):
 
         if 'alg' in updates or 'config' in updates:
             gear = get_gear_by_name(updates.get('alg', doc['alg']))
-            config_ = fill_gear_default_values(gear, updates.get('config', doc.get('config', {})))
-            validate_gear_config(gear, config_)
+            validate_gear_config(gear, updates.get('config', doc.get('config')))
 
         doc.update(updates)
         config.db.project_rules.replace_one({'_id': bson.ObjectId(rid)}, doc)
@@ -539,7 +537,7 @@ class BatchHandler(base.RequestHandler):
         gear = get_gear(gear_id)
         if gear.get('gear', {}).get('custom', {}).get('flywheel', {}).get('invalid', False):
             self.abort(400, 'Gear marked as invalid, will not run!')
-        validate_gear_config(gear, fill_gear_default_values(gear, config_))
+        validate_gear_config(gear, config_)
 
         container_ids = []
         container_type = None
