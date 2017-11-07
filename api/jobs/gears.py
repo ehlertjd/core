@@ -5,6 +5,7 @@ Gears
 from __future__ import absolute_import
 
 import bson.objectid
+import copy
 import datetime
 from jsonschema import Draft4Validator, ValidationError
 import gears as gear_tools
@@ -130,8 +131,10 @@ def fill_gear_default_values(gear, config_):
 
     if config_ is None:
         config_ = {}
+    else:
+        config_ = copy.deepcopy(config_)
 
-    for k,v in gear['gear'].get('config', {}).iteritems():
+    for k, v in gear['gear'].get('config', {}).iteritems():
         if 'default' in v:
             config_.setdefault(k, v['default'])
 
