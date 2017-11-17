@@ -1301,6 +1301,70 @@ def upgrade_to_40():
     cursor = config.db.acquisitions.find({'timestamp':{'$type':'string'}})
     process_cursor(cursor, upgrade_to_40_closure)
 
+def upgrade_to_40_closure(cont, cont_name):
+    """
+    if the file has a modality, we try to find a matching classification
+    key and value for each measurement in the modality's classification map
+
+    if there is no modality or the modality cannot be found in the modalities
+    collection, all measurements are added to the custom key
+    """
+
+    files = cont['files']
+    for f in cont['files']:
+        modality = f.get('modality')
+        measurements = f['measurements']
+        modality_container = None
+
+        if modality:
+            modality_container = config.db.modalities.find_one({'_id': modality})
+
+        if modality_container:
+            classification = {}
+            m_class = modality_container.get('classifications', {})
+
+            for m in measurements:
+                found = False
+                for k, v_array in m_class.iteritems():
+                    for v in v_array:
+                        if v.lower() == m.lower():
+                            found = True
+                            if classification.get(k):
+                                classification[k].append(v)
+                            else:
+                                classification[k] = [v]
+                if not found:
+                    if classification.get('Custom'):
+                        classification['Custom'].append(m)
+                    else:
+                        classification['Custom'] = [m]
+
+        else:
+            classification = {'Custom': measurements}
+
+        f.pop('measurements')
+        f['classification'] = classification
+
+
+    config.db[cont_name].update_one({'_id': cont['_id']}, {'$set': {'files': files}})
+
+    return True
+
+
+def upgrade_to_40():
+    """
+    Update classification for all files with existing measurements field
+    """
+
+
+    for cont_name in ['groups', 'projects', 'collections', 'sessions', 'acquisitions', 'analyses']:
+
+        cursor = config.db[cont_name].find({'files.measurements': {'$exists': True }})
+        process_cursor(cursor, upgrade_to_39_closure, context=cont_name)
+
+
+
+
 ###
 ### BEGIN RESERVED UPGRADE SECTION
 ###
