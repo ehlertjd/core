@@ -1360,7 +1360,7 @@ def upgrade_to_40():
     for cont_name in ['groups', 'projects', 'collections', 'sessions', 'acquisitions', 'analyses']:
 
         cursor = config.db[cont_name].find({'files.measurements': {'$exists': True }})
-        process_cursor(cursor, upgrade_to_39_closure, context=cont_name)
+        process_cursor(cursor, upgrade_to_40_closure, context=cont_name)
 
 
 
