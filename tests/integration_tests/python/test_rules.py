@@ -437,5 +437,3 @@ def test_rules(randstr, data_builder, file_form, as_root, as_admin, with_user, a
     # delete rule
     r = as_admin.delete('/projects/' + project + '/rules/' + rule3)
     assert r.ok
-
-    # TODO add and test 'new-style' rules
