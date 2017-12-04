@@ -333,31 +333,14 @@ class RequestHandler(webapp2.RequestHandler):
         message = str(exception)
         if isinstance(exception, webapp2.HTTPException):
             code = exception.code
-        elif isinstance(exception, errors.InputValidationException):
-            code = 400
-            self.request.logger.warning(str(exception))
-        elif isinstance(exception, errors.APIAuthProviderException):
-            code = 401
-        elif isinstance(exception, errors.APIRefreshTokenException):
-            code = 401
-            custom_errors = exception.errors
-        elif isinstance(exception, errors.APIUnknownUserException):
-            code = 402
-        elif isinstance(exception, errors.APIConsistencyException):
-            code = 400
-        elif isinstance(exception, errors.APIPermissionException):
-            code = 403
-        elif isinstance(exception, errors.APINotFoundException):
-            code = 404
-        elif isinstance(exception, errors.APIConflictException):
-            code = 409
-        elif isinstance(exception, errors.APIValidationException):
-            code = 422
-            custom_errors = exception.errors
-        elif isinstance(exception, errors.FileStoreException):
-            code = 400
-        elif isinstance(exception, errors.FileFormException):
-            code = 400
+        elif isinstance(exception, errors.SciTranException):
+            code = exception.http_code
+            if isinstance(exception, errors.InputValidationException):
+                self.request.logger.warning(str(exception))
+            elif isinstance(exception, errors.APIRefreshTokenException):
+                custom_errors = exception.errors
+            elif isinstance(exception, errors.APIValidationException):
+                custom_errors = exception.errors
         elif isinstance(exception, ElasticsearchException):
             code = 503
             message = "Search is currently down. Try again later."
