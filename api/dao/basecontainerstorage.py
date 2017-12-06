@@ -206,7 +206,9 @@ class ContainerStorage(object):
                 raise APIStorageException(e.message)
         cont = self._from_mongo(self.dbc.find_one({'_id': _id, 'deleted': {'$exists': False}}, projection))
         if fill_defaults:
-            cont =  self._fill_default_values(cont)
+            cont = self._fill_default_values(cont)
+        if cont is not None and cont.get('files', []):
+            cont['files'] = [f for f in cont['files'] if 'deleted' not in f]
         return cont
 
     def get_all_el(self, query, user, projection, fill_defaults=False):
@@ -228,6 +230,8 @@ class ContainerStorage(object):
 
         results = list(self.dbc.find(query, projection))
         for cont in results:
+            if cont.get('files', []):
+                cont['files'] = [f for f in cont['files'] if 'deleted' not in f]
             cont = self._from_mongo(cont)
             if fill_defaults:
                 cont =  self._fill_default_values(cont)
