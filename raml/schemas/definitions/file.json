@@ -5,7 +5,19 @@
         "file-type":      { "type": "string" },
         "mimetype":       { "type": "string" },
         "modality":       { "type": "string" },
-        "classification": { "type": "object" },
+        "classification": {
+          "type": "object",
+          "patternProperties": {
+            "^.*$": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "tags": {
           "items": { "type": "string"},
           "type": "array",
