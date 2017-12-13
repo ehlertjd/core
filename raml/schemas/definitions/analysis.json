@@ -1,20 +1,18 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "type": "object",
     "definitions": {
 		"inputs": 		{
 							"type": ["array", "null"],
 						 	"items": {
-						 		"$ref": "file.json"
+						 		"type": "object"
 							}
 						},
 		"outputs": 		{
 							"type": ["array", "null"],
 						 	"items": {
-						 		"$ref": "file.json"
+						 		"type": "object"
 							}
 						},
-		"notes":        {"type": "array",  "items": {"$ref": "note.json"}},
 		"description" : {"type": "string"},
         "label":    	{"type": "string", "minLength": 1, "maxLength": 256},
         "user":     	{"type": "string"},
@@ -23,7 +21,7 @@
 			"properties":{
 				"inputs":{"$ref":"#/definitions/inputs"},
 				"outputs":{"$ref":"#/definitions/outputs"},
-				"notes":{"$ref":"#/definitions/notes"},
+				"notes":{"$ref":"note.json#/definitions/notes-list-output"},
 				"description":{"$ref":"#/definitions/description"},
 				"job":{"$ref":"../definitions/job.json#/definitions/_id"},
 				"label":{"$ref":"#/definitions/label"},
@@ -76,7 +74,7 @@
 						{"type":"object"}
 					]
 				},
-				"notes":{"$ref":"#/definitions/notes"},
+				"notes":{"$ref":"note.json#/definitions/notes-list-output"},
 				"description":{"$ref":"#/definitions/description"},
 				"label":{"$ref":"#/definitions/label"},
 				"user":{"$ref":"#/definitions/user"},
