@@ -7,6 +7,18 @@ var walk = require('./walk');
 var _ = require('lodash');
 var yaml = require('js-yaml');
 
+var PRIMITIVE_TYPES = {
+	'integer': true,
+	'number': true,
+	'string': true,
+	'boolean': true,
+	'null': true
+};
+
+function isPrimitiveType(type) {
+	return !!PRIMITIVE_TYPES[type];
+}
+
 function snakeToCamelCase(name) {
 	var i, result = '',
 		parts = name.replace('_', '-').split('-');
@@ -25,7 +37,7 @@ function makeDefinitionName(relpath) {
 	var name = relpath.replace('\\', '/').split('/');
 
 	// Remove the special 'definitions' prefix for top-level definitions
-	if( name[0] === 'definitions' ) {
+	if( name.length > 1 && name[0] === 'definitions' ) {
 		name.splice(0, 1);
 	}
 
@@ -149,12 +161,33 @@ Schemas.prototype.resolveRefs = function(relpath, obj, jsonpath) {
 		}
 
 		if( this.definitions_by_path.hasOwnProperty(actualpath) ) {
-			obj['$ref'] = '#/definitions/' + this.definitions_by_path[actualpath];
+			var defName = this.definitions_by_path[actualpath];
+			// Replace simple types inline
+			if( this.isPrimitiveDef(defName) ) {
+				return _.cloneDeep(this.definitions[defName]);
+			} else {
+				obj['$ref'] = '#/definitions/' + defName;
+			}
 		} else {
 			this.log('Error - Cannot find path for reference: ' + actualpath + ' in ' + relpath);
 		}
 	}
 	return obj;
+};
+
+Schemas.prototype.isPrimitiveDef = function(name) {
+	var def = this.definitions[name];
+	if( def ) {
+		return isPrimitiveType(def.type);
+	}	
+	return false;
+};
+
+
+Schemas.prototype.getComplexDefinitions = function() {
+	return _.pickBy(this.definitions, function(value) {
+		return !isPrimitiveType(value.type);
+	});
 };
 
 module.exports = Schemas;
