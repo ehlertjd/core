@@ -26,6 +26,8 @@ tags:
     description: Job operations
   - name: collections
     description: Collection operations
+  - name: sessions
+    description: Session operations
 
 paths:
   $include: 
@@ -45,6 +47,7 @@ paths:
     - paths/devices.yaml
     - paths/groups.yaml
     - paths/collections.yaml
+    - paths/sessions.yaml
 
 securityDefinitions:
   ApiKey:
