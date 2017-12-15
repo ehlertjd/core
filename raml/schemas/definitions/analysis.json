@@ -9,7 +9,6 @@
 							"type": ["array", "null"],
 						 	"items": {"$ref":"file.json#/definitions/file"}
 						},
-        "user":     	{"type": "string"},
 		"analysis-input":{
 			"type":"object",
 			"properties":{
@@ -19,7 +18,7 @@
 				"description": {"$ref":"common.json#/definitions/description"},
 				"job":         {"$ref":"common.json#/definitions/objectid"},
 				"label":       {"$ref":"common.json#/definitions/label"},
-				"user":        {"$ref":"#/definitions/user"}
+				"user":        {"$ref":"common.json#/definitions/user-id"}
 			},
 		    "additionalProperties": false
 		},

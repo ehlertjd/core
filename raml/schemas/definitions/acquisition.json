@@ -2,7 +2,6 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "definitions":{
         "acquisition-input":{
-            "x-gen-name": "acquisition",
             "type": "object",
             "properties": {
                 "public":       {"$ref":"container.json#/definitions/public"},
@@ -17,7 +16,6 @@
             "additionalProperties":false
         },
         "acquisition-output":{
-            "x-gen-name": "acquisition",
             "type":"object",
             "properties": {
               "_id":          {"$ref":"common.json#/definitions/objectid"},

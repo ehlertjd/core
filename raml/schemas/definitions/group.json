@@ -8,6 +8,17 @@
             "title": "label",
             "type": "string"
         },
+        "group": {
+          "type": "object",
+          "properties": {
+            "_id":{"$ref":"common.json#/definitions/string-id"},
+            "label": {"$ref": "#/definitions/label"},
+            "permissions": {"$ref": "permission.json#/definitions/permission-output-list"},
+            "created": {"$ref":"created-modified.json#/definitions/created"},
+            "modified": {"$ref":"created-modified.json#/definitions/modified"}
+          },
+          "additionalProperties":false
+        },
         "group-input":{
           "type": "object",
           "properties": {
@@ -18,47 +29,21 @@
         },
         "group-output":{
           "type": "object",
-          "properties": {
-            "_id":{"$ref":"common.json#/definitions/string-id"},
-            "label": {"$ref": "#/definitions/label"},
-            "permissions": {
-              "type": "array",
-              "items": {"$ref": "../definitions/permission.json#/definitions/permission-output-default-required"},
-              "uniqueItems": true
-            },
-            "created": {"$ref":"../definitions/created-modified.json#/definitions/created"},
-            "modified": {"$ref":"../definitions/created-modified.json#/definitions/modified"}
-          },
-          "additionalProperties":false,
+          "allOf": [{"$ref":"#/definitions/group"}],
           "required": ["permissions", "created","modified","_id"]
         },
         "group-output-list":{
             "type":"array",
-            "items":{
-                "allOf":[{"$ref":"#/definitions/group-output"}]
-            }
+            "items":{"$ref":"#/definitions/group-output"}
         },
         "project-group-output":{
           "type": "object",
-          "properties": {
-            "_id":{"$ref":"#/definitions/_id"},
-            "label": {"$ref": "../definitions/container.json#/definitions/label"},
-            "permissions": {
-              "type": "array",
-              "items": {"$ref": "../definitions/permission.json#/definitions/permission-output-default-required"},
-              "uniqueItems": true
-            },
-            "created": {"$ref":"../definitions/created-modified.json#/definitions/created"},
-            "modified": {"$ref":"../definitions/created-modified.json#/definitions/modified"}
-          },
-          "additionalProperties":false,
+          "allOf": [{"$ref":"#/definitions/group"}],
           "required": ["_id"]
         },
         "project-group-output-list":{
             "type":"array",
-            "items":{
-                "allOf":[{"$ref":"#/definitions/project-group-output"}]
-            }
+            "items":{"$ref":"#/definitions/project-group-output"}
         }
     }
 }

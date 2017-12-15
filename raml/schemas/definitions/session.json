@@ -8,61 +8,48 @@
         "session-input":{
             "type": "object",
             "properties": {
-                "operator":     {"$ref": "#/definitions/operator"},
-                "public":       {"$ref": "../definitions/container.json#/definitions/public"},
-                "label":        {"$ref": "common.json#/definitions/label"},
-                "info":         {"$ref": "../definitions/container.json#/definitions/info"},
-                "archived":     {"$ref":"../definitions/container.json#/definitions/archived"},
+                "operator":     {"$ref":"#/definitions/operator"},
+                "public":       {"$ref":"container.json#/definitions/public"},
+                "label":        {"$ref":"common.json#/definitions/label"},
+                "info":         {"$ref":"container.json#/definitions/info"},
+                "archived":     {"$ref":"container.json#/definitions/archived"},
                 "project":      {"$ref":"#/definitions/project"},
-                "uid":          {"$ref":"../definitions/container.json#/definitions/uid"},
-                "timestamp":    {"$ref":"../definitions/container.json#/definitions/timestamp"},
-                "timezone":     {"$ref":"../definitions/container.json#/definitions/timezone"},
-                "subject":      {
-                    "allOf":[{"$ref": "../definitions/subject.json#/definitions/subject-input"}]
-                }
+                "uid":          {"$ref":"container.json#/definitions/uid"},
+                "timestamp":    {"$ref":"container.json#/definitions/timestamp"},
+                "timezone":     {"$ref":"container.json#/definitions/timezone"},
+                "subject":      {"$ref": "subject.json#/definitions/subject-input"}
             },
             "additionalProperties": false
         },
         "session-output":{
             "type": "object",
             "properties": {
-                "_id":          {"$ref":"../definitions/objectid.json#"},
-                "public":       {"$ref": "../definitions/container.json#/definitions/public"},
-                "label":        {"$ref": "common.json#/definitions/label"},
-                "info":         {"$ref": "../definitions/container.json#/definitions/info"},
-                "archived":     {"$ref":"../definitions/container.json#/definitions/archived"},
-                "operator":     {"$ref": "#/definitions/operator"},
+                "_id":          {"$ref":"common.json#/definitions/objectid"},
+                "public":       {"$ref":"container.json#/definitions/public"},
+                "label":        {"$ref":"common.json#/definitions/label"},
+                "info":         {"$ref":"container.json#/definitions/info"},
+                "archived":     {"$ref":"container.json#/definitions/archived"},
+                "operator":     {"$ref":"#/definitions/operator"},
                 "project":      {"$ref":"#/definitions/project"},
-                "uid":          {"$ref":"../definitions/container.json#/definitions/uid"},
-                "timestamp":    {"$ref":"../definitions/container.json#/definitions/timestamp"},
-                "timezone":     {"$ref":"../definitions/container.json#/definitions/timezone"},
-                "subject":      {
-                    "type":"object",
-                    "allOf":[{"$ref": "../definitions/subject.json#/definitions/subject-output-default-required"}]
-                },
-                "created":{"$ref":"../definitions/created-modified.json#/definitions/created"},
-                "modified":{"$ref":"../definitions/created-modified.json#/definitions/modified"},
-                "permissions":{
-                    "type":"array",
-                    "items":{"$ref":"../definitions/permission.json#/definitions/permission-output-default-required"}
-                },
-                "group":{"$ref":"common.json#/definitions/string-id"},
-                "project_has_template":{"$ref":"#/definitions/project_has_template"},
-                "satisfies_template":{"$ref":"#/definitions/satisfies_template"},
+                "uid":          {"$ref":"container.json#/definitions/uid"},
+                "timestamp":    {"$ref":"container.json#/definitions/timestamp"},
+                "timezone":     {"$ref":"container.json#/definitions/timezone"},
+                "subject":      {"$ref":"subject.json#/definitions/subject-output-default-required"},
+                "created":      {"$ref":"created-modified.json#/definitions/created"},
+                "modified":     {"$ref":"created-modified.json#/definitions/modified"},
+                "permissions":  {"$ref":"permission.json#/definitions/permission-output-list"},
+                "group":                {"$ref":"common.json#/definitions/string-id"},
+                "project_has_template": {"$ref":"#/definitions/project_has_template"},
+                "satisfies_template":   {"$ref":"#/definitions/satisfies_template"},
                 "files":{
                     "type":"array",
-                    "items":{
-                        "allOf":[{"$ref":"../definitions/file.json#/definitions/file-output"}]
-                    }
+                    "items":{"$ref":"file.json#/definitions/file-output"}
                 },
-                "notes":{"allOf":[{"$ref":"../definitions/note.json#/definitions/notes-list-output"}]},
-                "tags":{"allOf":[{"$ref":"../definitions/tag.json#/definitions/tag-output-list"}]},
+                "notes": {"$ref":"note.json#/definitions/notes-list-output"},
+                "tags":  {"$ref":"tag.json#/definitions/tag-output-list"},
                 "analyses":{
                     "type":"array",
-                    "items":{
-                        "type":"object",
-                        "allOf":[{"$ref":"../definitions/analysis.json#/definitions/analysis-output"}]
-                    }
+                    "items":{"$ref":"analysis.json#/definitions/analysis-output"}
                 }
             },
             "additionalProperties": false
