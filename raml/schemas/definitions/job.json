@@ -141,6 +141,18 @@
       },
       "additionalProperties":false
     },
+    "job-input": {
+      "type":"object",
+      "properties": {
+        "gear_id":{"$ref":"#/definitions/gear_id"},
+        "inputs":{"$ref":"#/definitions/inputs-object"},
+        "destination":{"$ref":"#/definitions/destination"},
+        "tags":{"$ref":"#/definitions/tags"},
+        "config":{"$ref":"#/definitions/config"}
+      },
+      "required": ["gear_id"],
+      "additionalProperties":false
+    },
     "job-output": {
       "type": "object",
       "allOf": [{"$ref":"#/definitions/job"}],
