@@ -16,7 +16,7 @@
 				"inputs":      {"$ref":"#/definitions/inputs"},
 				"outputs":     {"$ref":"#/definitions/outputs"},
 				"notes":       {"$ref":"note.json#/definitions/notes-list-output"},
-				"description": {"type":"string"},
+				"description": {"$ref":"common.json#/definitions/description"},
 				"job":         {"$ref":"common.json#/definitions/objectid"},
 				"label":       {"$ref":"common.json#/definitions/label"},
 				"user":        {"$ref":"#/definitions/user"}
@@ -45,7 +45,7 @@
 					]
 				},
 				"notes":       {"$ref":"note.json#/definitions/notes-list-output"},
-				"description": {"type":"string"},
+				"description": {"$ref":"common.json#/definitions/description"},
 				"label":       {"$ref":"common.json#/definitions/label"},
 				"user":        {"$ref":"common.json#/definitions/user-id"},
 				"created":     {"$ref":"created-modified.json#/definitions/created"},

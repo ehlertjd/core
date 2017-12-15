@@ -10,7 +10,7 @@
             "properties": {
                 "operator":     {"$ref": "#/definitions/operator"},
                 "public":       {"$ref": "../definitions/container.json#/definitions/public"},
-                "label":        {"$ref": "../definitions/container.json#/definitions/label"},
+                "label":        {"$ref": "common.json#/definitions/label"},
                 "info":         {"$ref": "../definitions/container.json#/definitions/info"},
                 "archived":     {"$ref":"../definitions/container.json#/definitions/archived"},
                 "project":      {"$ref":"#/definitions/project"},
@@ -28,7 +28,7 @@
             "properties": {
                 "_id":          {"$ref":"../definitions/objectid.json#"},
                 "public":       {"$ref": "../definitions/container.json#/definitions/public"},
-                "label":        {"$ref": "../definitions/container.json#/definitions/label"},
+                "label":        {"$ref": "common.json#/definitions/label"},
                 "info":         {"$ref": "../definitions/container.json#/definitions/info"},
                 "archived":     {"$ref":"../definitions/container.json#/definitions/archived"},
                 "operator":     {"$ref": "#/definitions/operator"},
@@ -46,7 +46,7 @@
                     "type":"array",
                     "items":{"$ref":"../definitions/permission.json#/definitions/permission-output-default-required"}
                 },
-                "group":{"$ref":"../definitions/group.json#/definitions/_id"},
+                "group":{"$ref":"common.json#/definitions/string-id"},
                 "project_has_template":{"$ref":"#/definitions/project_has_template"},
                 "satisfies_template":{"$ref":"#/definitions/satisfies_template"},
                 "files":{

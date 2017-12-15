@@ -1,7 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "definitions":{
-        "_id":{"$ref":"../definitions/string-id.json#"},
         "label": {
             "maxLength": 64,
             "minLength": 1,
@@ -12,16 +11,16 @@
         "group-input":{
           "type": "object",
           "properties": {
-            "_id":{"$ref":"#/definitions/_id"},
-            "label": {"$ref": "../definitions/container.json#/definitions/label"}
+            "_id":{"$ref":"common.json#/definitions/string-id"},
+            "label": {"$ref": "#/definitions/label"}
           },
           "additionalProperties": false
         },
         "group-output":{
           "type": "object",
           "properties": {
-            "_id":{"$ref":"#/definitions/_id"},
-            "label": {"$ref": "../definitions/container.json#/definitions/label"},
+            "_id":{"$ref":"common.json#/definitions/string-id"},
+            "label": {"$ref": "#/definitions/label"},
             "permissions": {
               "type": "array",
               "items": {"$ref": "../definitions/permission.json#/definitions/permission-output-default-required"},
@@ -63,3 +62,4 @@
         }
     }
 }
+

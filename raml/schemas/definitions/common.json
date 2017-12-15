@@ -6,6 +6,9 @@
     		"minLength": 1,
     		"maxLength": 256
     	},
+    	"description": {
+    		"type": "string"
+    	},
     	"objectid": {
 		    "type": "string",
 		    "pattern": "^[a-fA-F0-9]{24}$"
@@ -19,6 +22,10 @@
 		"user-id": {
 			"type": "string",
 			"format": "email"
-		}
+		},
+        "timestamp": {
+        	"type": ["string", "null"], 
+        	"format": "date-time"
+        }
     }
 }

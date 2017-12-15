@@ -6,7 +6,7 @@
             "type": "object",
             "properties": {
                 "public":       {"$ref":"container.json#/definitions/public"},
-                "label":        {"$ref":"container.json#/definitions/label"},
+                "label":        {"$ref":"common.json#/definitions/label"},
                 "info":         {"$ref":"container.json#/definitions/info"},
                 "archived":     {"$ref":"container.json#/definitions/archived"},
                 "session":      {"$ref":"common.json#/definitions/objectid"},
@@ -22,7 +22,7 @@
             "properties": {
               "_id":          {"$ref":"common.json#/definitions/objectid"},
               "public":       {"$ref":"container.json#/definitions/public"},
-              "label":        {"$ref":"container.json#/definitions/label"},
+              "label":        {"$ref":"common.json#/definitions/label"},
               "info":         {"$ref":"container.json#/definitions/info"},
               "archived":     {"$ref":"container.json#/definitions/archived"},
               "session":      {"$ref":"common.json#/definitions/objectid"},
