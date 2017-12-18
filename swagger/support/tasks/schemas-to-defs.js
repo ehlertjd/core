@@ -48,7 +48,6 @@ module.exports = function(grunt) {
 	 	root.definitions = _.extend(root.definitions||{}, schemas.getComplexDefinitions());
 
 		schemas.pathResolver = function(cwd, relpath) {
-			grunt.log.writeln('Resolve path: ' + cwd + ' : ' + relpath);
 			if( _.startsWith(relpath, '../definitions') ) {
 				return relpath.substr(3);
 			}

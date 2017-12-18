@@ -38,7 +38,6 @@ module.exports = function(grunt) {
 		});
 
 		function resolveContent(res, callback) {
-			grunt.log.writeln('Resolve content:', res.text);
 			callback(undefined, resolver.resolveContent(res));
 		}
 
