@@ -15,6 +15,26 @@
             },
             "additionalProperties":false
         },
+        "acquisition-metadata-input": {
+            "type": "object",
+            "x-note": "Are all of these fields still used/valid? Can this be reconciled with enginemetadata.json#/definitions/uid-upload-input?",
+            "properties": {
+                "public":       {"$ref":"container.json#/definitions/public"},
+                "label":        {"type":"string"},
+                "info":         {"$ref":"container.json#/definitions/info"},
+                "metadata":     {"type": ["object", "null"]},
+                "measurement":  {"type": ["string", "null"]},
+                "instrument":   {"type": ["string", "null"]},
+                "uid":          {"$ref":"container.json#/definitions/uid"},
+                "timestamp":    {"$ref":"container.json#/definitions/timestamp"},
+                "timezone":     {"$ref":"container.json#/definitions/timezone"},
+                "files":        {
+                    "type": ["array", "null"],
+                    "items": {"$ref": "file.json#/definitions/file-input"}
+                }
+            },
+            "additionalProperties": false
+        }, 
         "acquisition-output":{
             "type":"object",
             "properties": {

@@ -13,6 +13,19 @@
             },
             "additionalProperties": false
         },
+        "project-metadata-input": {
+            "type": "object",
+            "properties": {
+                "public":       {"$ref":"container.json#/definitions/public"},
+                "label":        {"type":"string"},
+                "info":         {"$ref":"container.json#/definitions/info"},
+                "files":        {
+                    "type": ["array", "null"],
+                    "items": {"$ref": "file.json#/definitions/file-input"}
+                }
+            },
+            "additionalProperties": false
+        },
         "project-output":{
             "type": "object",
             "properties": {

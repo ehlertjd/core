@@ -27,6 +27,13 @@
           },
           "additionalProperties": false
         },
+        "group-metadata-input": {
+          "type": "object",
+          "properties": {
+            "_id":{"type":"string"}
+          },
+          "additionalProperties": false
+        },
         "group-output":{
           "type": "object",
           "allOf": [{"$ref":"#/definitions/group"}],

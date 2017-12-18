@@ -157,7 +157,6 @@ expected_input_schemas = set([
     'avatars.json',
     'collection.json',
     'collection-update.json',
-    'container.json',
     'device.json',
     'file.json',
     'file-update.json',
