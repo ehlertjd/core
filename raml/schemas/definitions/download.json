@@ -55,6 +55,14 @@
             },
             "required": ["optional", "nodes"],
             "additionalProperties": false
+        },
+        "download-ticket": {
+            "type":"object",
+            "properties":{
+                "ticket":{"type":"string"}
+            },
+            "additionalProperties":false,
+            "required":["ticket"]            
         }
     }
 }

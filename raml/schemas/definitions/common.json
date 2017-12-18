@@ -26,6 +26,30 @@
         "timestamp": {
         	"type": ["string", "null"], 
         	"format": "date-time"
+        },
+        "deleted-count": {
+            "type":"object",
+            "properties": {
+                "deleted": {
+                    "type": "integer"
+                }
+            }            
+        },
+        "modified-count": {
+            "type": "object", 
+            "properties": {
+                "modified": {
+                    "type": "integer"
+                }
+            }
+        },
+        "object-created": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                }
+            }
         }
     }
 }

@@ -1,18 +1,4 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "type": "object",
-  "properties":{
-    "jobs":{
-      "type":"array",
-      "items":{"$ref": "../definitions/job.json#/definitions/job-output"}
-    },
-    "containers":{
-       "patternProperties": {
-        "^[a-fA-F0-9]{24}$":{
-          "type": "object"
-        }
-      }
-    }
-  },
-  "additionalProperties":false
+  "$ref": "../definitions/session.json#/definitions/session-jobs-output"
 }
