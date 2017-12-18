@@ -4,12 +4,12 @@
         "upload-acquisition-metadata-input": {
             "type": "object",
             "properties": {
-                "public":       {"$ref":"container.json#/definitions/public"},
-                "label":        {"$ref":"common.json#/definitions/label"},
-                "info":         {"$ref":"container.json#/definitions/info"},
-                "uid":          {"$ref":"container.json#/definitions/uid"},
+                "public":       {"type": ["boolean", "null"]},
+                "label":        {"type": ["string", "null"]},
+                "info":         {"type": ["object", "null"]},
+                "uid":          {"type": ["string", "null"]},
                 "timestamp":    {"$ref":"container.json#/definitions/timestamp"},
-                "timezone":     {"$ref":"container.json#/definitions/timezone"},
+                "timezone":     {"type": ["string", "null"]},
                 "files":        {
                     "type": ["array", "null"],
                     "items": {"$ref": "file.json#/definitions/file-input"}

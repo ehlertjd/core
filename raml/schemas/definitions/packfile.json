@@ -13,7 +13,7 @@
             "type": "object",
             "properties": {
                 "label":        {"type": "string"},
-                "subject":      {"$ref": "subject.json"}
+                "subject":      {"$ref": "subject.json#/definitions/subject-input"}
             },
             "additionalProperties": false,
             "required": ["label"]

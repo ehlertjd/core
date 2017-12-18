@@ -24,13 +24,13 @@
         "session-metadata-input": {
             "type": "object",
             "properties": {
-                "public":       {"$ref":"container.json#/definitions/public"},
-                "label":        {"type":"string"},
-                "info":         {"$ref":"container.json#/definitions/info"},
-                "operator":     {"$ref":"#/definitions/operator"},
-                "uid":          {"$ref":"container.json#/definitions/uid"},
-                "timestamp":    {"$ref":"container.json#/definitions/timestamp"},
-                "timezone":     {"$ref":"container.json#/definitions/timezone"},
+                "public":       {"type": ["boolean", "null"]},
+                "label":        {"type": ["string", "null"]},
+                "info":         {"type": ["object", "null"]},
+                "operator":     {"type": ["string", "null"]},
+                "uid":          {"type": ["string", "null"]},
+                "timestamp":    {"type": ["string", "null"], "format": "date-time"},
+                "timezone":     {"type": ["string", "null"]},
                 "subject":      {"$ref": "subject.json#/definitions/subject-input"},
                 "files":        {
                     "type": ["array", "null"],

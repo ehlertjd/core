@@ -45,7 +45,7 @@
                 "nodes": {
                     "type": "array",
                     "minItems": 1,
-                    "items": {"$ref": "#definitions/download-node"}
+                    "items": {"$ref": "#/definitions/download-node"}
                 },
                 "filters": {
                     "type": "array",

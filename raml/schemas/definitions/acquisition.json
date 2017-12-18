@@ -19,15 +19,15 @@
             "type": "object",
             "x-note": "Are all of these fields still used/valid? Can this be reconciled with enginemetadata.json#/definitions/uid-upload-input?",
             "properties": {
-                "public":       {"$ref":"container.json#/definitions/public"},
-                "label":        {"type":"string"},
-                "info":         {"$ref":"container.json#/definitions/info"},
+                "public":       {"type": ["boolean", "null"]},
+                "label":        {"type": ["string", "null"]},
+                "info":         {"type": ["object", "null"]},
                 "metadata":     {"type": ["object", "null"]},
                 "measurement":  {"type": ["string", "null"]},
                 "instrument":   {"type": ["string", "null"]},
-                "uid":          {"$ref":"container.json#/definitions/uid"},
+                "uid":          {"type": ["string", "null"]},
                 "timestamp":    {"$ref":"container.json#/definitions/timestamp"},
-                "timezone":     {"$ref":"container.json#/definitions/timezone"},
+                "timezone":     {"type": ["string", "null"]},
                 "files":        {
                     "type": ["array", "null"],
                     "items": {"$ref": "file.json#/definitions/file-input"}

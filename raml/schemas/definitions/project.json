@@ -16,9 +16,9 @@
         "project-metadata-input": {
             "type": "object",
             "properties": {
-                "public":       {"$ref":"container.json#/definitions/public"},
-                "label":        {"type":"string"},
-                "info":         {"$ref":"container.json#/definitions/info"},
+                "public":       {"type": ["boolean", "null"]},
+                "label":        {"type": ["string", "null"]},
+                "info":         {"type": ["object", "null"]},
                 "files":        {
                     "type": ["array", "null"],
                     "items": {"$ref": "file.json#/definitions/file-input"}

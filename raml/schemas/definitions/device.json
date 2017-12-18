@@ -9,7 +9,7 @@
       }
     },
     "interval": {"type": "integer"},
-    "status": {
+    "status-value": {
       "type": "string",
       "enum": ["ok", "missing", "error", "unknown"]
     },
@@ -47,7 +47,7 @@
           "properties":{
             "errors":    {"$ref":"#/definitions/errors"},
             "last_seen": {"$ref":"common.json#/definitions/timestamp"},
-            "status":    {"$ref":"#/definitions/status"}
+            "status":    {"$ref":"#/definitions/status-value"}
           },
           "additionalProperties":false,
           "required": ["last_seen", "status"]
