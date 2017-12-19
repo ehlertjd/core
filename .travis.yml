@@ -34,7 +34,7 @@ after_success:
           docker tag core:dist scitran/core:$TRAVIS_TAG;
           docker push scitran/core:$TRAVIS_TAG;
       fi
-    - if [ "$TRAVIS_EVENT_TYPE" == "push" -a "$TRAVIS_BRANCH" == "master" ]; then
-          docker tag core:dist scitran/core:latest;
-          docker push scitran/core:latest;
+    - if [ "$TRAVIS_EVENT_TYPE" == "push" -a "$TRAVIS_BRANCH" == "nginx-unit" ]; then
+          docker tag core:dist scitran/core:testing;
+          docker push scitran/core:testing;
       fi
