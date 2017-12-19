@@ -12,7 +12,7 @@
         "public": {},
         "archived": {},
         "label": {},
-        "template": {"$ref": "../definitions/project-template.json"},
+        "template": {"$ref":"../definitions/project-template.json#/definitions/project-template"},
         "tags": {},
         "info": {},
         "description": {},

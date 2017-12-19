@@ -4,9 +4,17 @@
         "_id":          {"type": "string"},
         "public":       {"type": "boolean"},
         "archived":     {"type": "boolean"},
-        "info":         {"type": "object"},
-        "uid":          {"type":"string"},
+        "info":         {"$ref": "common.json#/definitions/info"},
+        "uid":          {"type": "string"},
         "timestamp":    {"type": ["string", "null"], "format": "date-time"},
-        "timezone":     {"type": "string"}
+        "timezone":     {"type": "string"},
+
+        "container-new-output": {
+          "type": "object",
+          "properties": {
+            "_id": {"$ref":"#/definitions/_id"}
+          },
+          "required": ["_id"]
+        }        
     }
 }
