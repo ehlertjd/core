@@ -1,6 +1,10 @@
 'use strict';
 
+var path = require('path');
 var loadTasks = require('load-grunt-tasks');
+var webpack = require('webpack');
+var webpackConfig = require('./webpack.config');
+
 var SWAGGER_UI_PORT = 9009;
 var SWAGGER_UI_LIVE_RELOAD_PORT = 19009;
 
@@ -134,9 +138,46 @@ module.exports = function(grunt) {
 		},
 
 		/**
+		 * Webpack for swagger-ui docs
+		 */
+		webpack: {
+			options: webpackConfig,
+			'build-prod': {
+				plugins: webpackConfig.plugins.concat(
+					new webpack.optimize.UglifyJsPlugin()
+				)
+			},
+			'build-dev': {
+				devtool: 'sourcemap'
+			}
+		},
+
+		'webpack-dev-server': {
+			options: {
+				webpack: webpackConfig,
+				publicPath: '/dist/'
+			},
+			start: {
+				port: SWAGGER_UI_PORT
+			}
+		},
+
+		/**
 		 * Live reload for swagger-ui
 		 */
 		watch: {
+			app: {
+				options: {
+					spawn: false
+				},
+				files: [
+					'swagger-ui/*.js',
+					'support/*.js'
+				],
+				tasks: [
+					'webpack:build-dev'
+				]
+			},
 			apis: {
 				options: {
 					livereload: SWAGGER_UI_LIVE_RELOAD_PORT
