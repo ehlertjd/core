@@ -17,16 +17,32 @@
   ],
   "tags": [
     {
+      "name": "files",
+      "description": "File upload/download operations"
+    },
+    {
+      "name": "devices",
+      "description": "Device operations"
+    },
+    {
       "name": "users",
       "description": "User operations"
+    },
+    {
+      "name": "gears",
+      "description": "Gear operations"
     },
     {
       "name": "groups",
       "description": "Group operations"
     },
     {
-      "name": "projects",
-      "description": "Project operations"
+      "name": "jobs",
+      "description": "Job operations"
+    },
+    {
+      "name": "collections",
+      "description": "Collection operations"
     },
     {
       "name": "sessions",
@@ -37,32 +53,8 @@
       "description": "Acquisition operations"
     },
     {
-      "name": "analyses",
-      "description": "Analysis operations"
-    },
-    {
-      "name": "collections",
-      "description": "Collection operations"
-    },
-    {
-      "name": "files",
-      "description": "File upload/download operations"
-    },
-    {
-      "name": "devices",
-      "description": "Device operations"
-    },
-    {
-      "name": "gears",
-      "description": "Gear operations"
-    },
-    {
-      "name": "rules",
-      "description": "Gear rule configuration"
-    },
-    {
-      "name": "jobs",
-      "description": "Job operations"
+      "name": "projects",
+      "description": "Project operations"
     },
     {
       "name": "reports",
@@ -71,9 +63,6 @@
     {
       "name": "batch",
       "description": "Batch job operations"
-    },
-    {
-      "name": "default"
     }
   ],
   "paths": {
@@ -86,13 +75,8 @@
           "200": {
             "description": "",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/auth-login-output"
-                }
-              ],
               "example": {
-                "token": "MjeuawZcctfRdCOmx_C6oYXK4sLHd2Dhc_oZpkXPPkxHizhNgwFWcrrKGA49BEnK"
+                "success": true
               }
             }
           }
@@ -108,13 +92,8 @@
           "200": {
             "description": "",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/auth-logout-output"
-                }
-              ],
               "example": {
-                "tokens_removed": 1
+                "auth_tokens_removed": 2
               }
             }
           }
@@ -251,80 +230,6 @@
             "description": "",
             "schema": {
               "example": [
-                {
-                  "origin": {
-                    "type": "job",
-                    "id": "58063f24e5dc5b001657a87f"
-                  },
-                  "mimetype": "application/octet-stream",
-                  "hash": "v0-sha384-12188e00a26650b2baa3f0195337dcf504f4362bb2136eef0cdbefb57159356b1355a0402fca0ab5ab081f21c305e5c2",
-                  "name": "cortical_surface_right_hemisphere.obj",
-                  "tags": [],
-                  "measurements": [],
-                  "modified": "2016-10-18T15:26:35.701000+00:00",
-                  "modality": null,
-                  "size": 21804112,
-                  "type": "None",
-                  "info": {}
-                },
-                {
-                  "origin": {
-                    "type": "job",
-                    "id": "58065fa7e5dc5b001457a882"
-                  },
-                  "mimetype": "application/octet-stream",
-                  "hash": "v0-sha384-12188e00a26650b2baa3f0195337dcf504f4362bb2136eef0cdbefb57159356b1355a0402fca0ab5ab081f21c305e5c2",
-                  "name": "cortical_surface_right_hemisphere.obj",
-                  "tags": [],
-                  "measurements": [],
-                  "modified": "2016-10-18T17:45:17.776000+00:00",
-                  "modality": null,
-                  "info": {},
-                  "type": "None",
-                  "size": 21804112
-                }
-              ]
-            }
-          },
-          "402": {
-            "description": "Uploads must be from an authorized drone"
-          }
-        },
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "formData",
-            "type": "string"
-          }
-        ]
-      }
-    },
-    "/upload/reaper": {
-      "post": {
-        "summary": "Bottom-up UID matching of Multipart form upload with N file fields, each with their desired filename.",
-        "description": "Upload data, allowing users to move sessions during scans without causing new data to be\ncreated in referenced project/group.\n\n\n### Evaluation Order:\n\n* If a matching acquisition UID is found anywhere on the system, the related files will be placed under that acquisition.\n* **OR** If a matching session UID is found, a new acquistion is created with the specified UID under that Session UID.\n* **OR** If a matching group ID and project label are found, a new session and acquisition will be created within that project\n* **OR** If a matching group ID is found, a new project and session and acquisition will be created within that group.\n* **OR** A new session and acquisition will be created within a special \"Unknown\" group and project, which is only visible to system administrators.\n",
-        "operationId": "upload_by_reaper",
-        "tags": [
-          "files"
-        ],
-        "responses": {
-          "200": {
-            "description": "Files uploaded successfully",
-            "schema": {
-              "type": "array",
-              "items": {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/file-output"
-                  }
-                ]
-              }
-            },
-            "examples": {
-              "application/json": [
                 {
                   "origin": {
                     "type": "job",
@@ -733,7 +638,6 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "allOf": [
@@ -760,13 +664,14 @@
           "200": {
             "description": "The user was created sucessfully",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/common-object-created"
-                }
-              ],
               "example": {
                 "_id": "jane.doe@gmail.com"
+              },
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string"
+                }
               }
             }
           },
@@ -788,11 +693,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/user-output-api-key"
-                }
-              ]
+              "$ref": "#/definitions/user-output-api-key"
             },
             "examples": {
               "response": {
@@ -846,16 +747,18 @@
               "allOf": [
                 {
                   "$ref": "#/definitions/user-output"
+                },
+                {
+                  "required": [
+                    "_id",
+                    "firstname",
+                    "lastname",
+                    "root",
+                    "email",
+                    "created",
+                    "modified"
+                  ]
                 }
-              ],
-              "required": [
-                "_id",
-                "firstname",
-                "lastname",
-                "root",
-                "email",
-                "created",
-                "modified"
               ]
             },
             "examples": {
@@ -882,20 +785,63 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
-              "title": "User",
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/user-input"
-                }
-              ],
               "example": {
                 "firstname": "Jane",
                 "lastname": "Smith",
                 "email": "jane.smith@gmail.com"
-              }
+              },
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "firstname": {
+                  "maxLength": 64,
+                  "minLength": 1,
+                  "title": "First Name",
+                  "type": "string"
+                },
+                "lastname": {
+                  "maxLength": 64,
+                  "minLength": 1,
+                  "title": "Last Name",
+                  "type": "string"
+                },
+                "email": {
+                  "format": "email",
+                  "title": "Email",
+                  "type": "string"
+                },
+                "avatar": {
+                  "format": "uri",
+                  "title": "Avatar",
+                  "type": "string"
+                },
+                "avatars": {
+                  "$ref": "#/definitions/avatars"
+                },
+                "root": {
+                  "type": "boolean"
+                },
+                "disabled": {
+                  "type": "boolean"
+                },
+                "preferences": {
+                  "$ref": "#/definitions/user-preferences"
+                },
+                "wechat": {
+                  "$ref": "#/definitions/user-wechat"
+                },
+                "firstlogin": {
+                  "type": "string"
+                },
+                "lastlogin": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
             },
             "description": "Accepts an object matching the User type except all fields are optional\n"
           }
@@ -960,11 +906,7 @@
           "200": {
             "description": "",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/group-output-list"
-                }
-              ]
+              "$ref": "#/definitions/group-output-list"
             },
             "examples": {
               "response": [
@@ -1466,14 +1408,7 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/job-input"
-                }
-              ],
               "example": {
                 "gear_id": "aex",
                 "inputs": {
@@ -1525,11 +1460,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/job-output"
-                }
-              ]
+              "$ref": "#/definitions/job-output"
             },
             "examples": {
               "response": {
@@ -1635,11 +1566,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/job-output"
-                }
-              ]
+              "$ref": "#/definitions/job-output"
             },
             "examples": {
               "response": {
@@ -1757,121 +1684,6 @@
         }
       }
     },
-    "/jobs/{JobId}/logs": {
-      "parameters": [
-        {
-          "required": true,
-          "type": "string",
-          "in": "path",
-          "name": "JobId"
-        }
-      ],
-      "get": {
-        "summary": "Get job logs",
-        "operationId": "get_job_logs",
-        "tags": [
-          "jobs"
-        ],
-        "responses": {
-          "200": {
-            "description": "The current job log",
-            "schema": {
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/job-log"
-                }
-              ],
-              "example": {
-                "_id": "57ac7394c700190017123fb8",
-                "logs": [
-                  {
-                    "fd": 1,
-                    "msg": "Hello World!"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Add logs to a job.",
-        "operationId": "add_logs",
-        "tags": [
-          "jobs"
-        ],
-        "responses": {
-          "200": {
-            "description": "Logs were added. No value is returned."
-          }
-        }
-      }
-    },
-    "/jobs/{JobId}/accept-failed-output": {
-      "parameters": [
-        {
-          "required": true,
-          "type": "string",
-          "in": "path",
-          "name": "JobId"
-        }
-      ],
-      "post": {
-        "summary": "Accept failed job output.",
-        "description": "Remove the 'from_failed_job' flag from the files.\nCreate any automatic jobs for the accepted files.\n",
-        "operationId": "accept_failed_output",
-        "tags": [
-          "jobs"
-        ],
-        "responses": {
-          "200": {
-            "description": "Failed output is accepted and created any automatic jobs."
-          },
-          "400": {
-            "description": "Can only accept failed output of a job that failed."
-          }
-        }
-      }
-    },
-    "/jobs/{JobId}/prepare-complete": {
-      "parameters": [
-        {
-          "required": true,
-          "type": "string",
-          "in": "path",
-          "name": "JobId"
-        }
-      ],
-      "post": {
-        "summary": "Create a ticket with the job id and its status.",
-        "operationId": "prepare_compete",
-        "tags": [
-          "jobs"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "example": {
-                "success": true
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns a ticket",
-            "schema": {
-              "example": {
-                "ticket": "579e97738120be2ada087feb"
-              }
-            }
-          }
-        }
-      }
-    },
     "/gears": {
       "get": {
         "summary": "List all gears",
@@ -1880,62 +1692,35 @@
           "gears"
         ],
         "responses": {
-          "200": {
-            "description": "Returns a list of gears installed on the system",
-            "schema": {
-              "type": "array",
-              "items": {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/gear-doc"
-                  }
-                ]
-              }
-            },
-            "examples": {
-              "response": [
-                {
-                  "category": "converter",
-                  "gear": {
-                    "inputs": {
-                      "audio": {
-                        "base": "file",
-                        "description": "Any audio file. Plain speech suggested!"
-                      }
-                    },
-                    "maintainer": "Nathaniel Kofalt",
-                    "description": "Detects the speech content of an audio file, using the machine-learning DeepSpeech library by Mozilla.",
-                    "license": "Other",
-                    "author": "Nathaniel Kofalt",
-                    "url": "",
-                    "label": "Speech Recognition",
-                    "source": "https://github.com/mozilla/DeepSpeech",
-                    "version": "1",
-                    "custom": {
-                      "gear-builder": {
-                        "image": "gear-builder-kdfqapbezk-20171219165918",
-                        "container": "c15189b625a0ea450cafbb24ef0df03c26cc8cf151181976ec4289801e191032"
-                      }
-                    },
-                    "config": {},
-                    "name": "speech-recognition"
-                  },
-                  "created": "2017-12-20T00:09:50.381000+00:00",
-                  "exchange": {
-                    "git-commit": "local",
-                    "rootfs-hash": "sha384:e01d925f90b097b554be0f802ef6ebb9f07000d7a6a2a0c3a25dac26893d4ac2414381e2c8e60f4b58b27c7fe8e56099",
-                    "rootfs-url": "/api/gears/temp/5a39aa4e07a393001b663910"
-                  },
-                  "modified": "2017-12-20T00:09:50.381000+00:00",
-                  "_id": "5a39aa4e07a393001b663910"
-                }
-              ]
-            }
+          "default": {
+            "description": ""
           }
         }
       }
     },
     "/gears/{GearIdOrName}": {
+      "post": {
+        "summary": "Create or update a gear.",
+        "description": "If no existing gear is found, one will be created\nOtherwise, the specified gear will be updated\n",
+        "operationId": "add_gear",
+        "parameters": [
+          {
+            "required": true,
+            "description": "Name of the gear to interact with",
+            "type": "string",
+            "in": "path",
+            "name": "GearIdOrName"
+          }
+        ],
+        "tags": [
+          "gears"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
       "get": {
         "summary": "Retrieve details about a specific gear",
         "operationId": "get_gear",
@@ -1944,131 +1729,50 @@
         ],
         "parameters": [
           {
-            "name": "GearIdOrName",
-            "in": "path",
-            "type": "string",
             "required": true,
-            "description": "Id of the gear to interact with"
+            "description": "Id of the gear to interact with",
+            "type": "string",
+            "in": "path",
+            "name": "GearIdOrName"
           }
         ],
         "responses": {
           "200": {
-            "description": "Details about a single gear",
+            "description": "",
             "schema": {
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/gear-doc"
-                }
-              ]
-            },
-            "examples": {
-              "response": {
-                "category": "converter",
-                "gear": {
-                  "inputs": {
-                    "audio": {
-                      "base": "file",
-                      "description": "Any audio file. Plain speech suggested!"
-                    }
-                  },
-                  "maintainer": "Nathaniel Kofalt",
-                  "description": "Detects the speech content of an audio file, using the machine-learning DeepSpeech library by Mozilla.",
-                  "license": "Other",
-                  "author": "Nathaniel Kofalt",
-                  "url": "",
-                  "label": "Speech Recognition",
-                  "source": "https://github.com/mozilla/DeepSpeech",
-                  "version": "1",
-                  "custom": {
-                    "gear-builder": {
-                      "image": "gear-builder-kdfqapbezk-20171219165918",
-                      "container": "c15189b625a0ea450cafbb24ef0df03c26cc8cf151181976ec4289801e191032"
-                    }
-                  },
-                  "config": {},
-                  "name": "speech-recognition"
-                },
-                "created": "2017-12-20T00:09:50.381000+00:00",
-                "exchange": {
-                  "git-commit": "local",
-                  "rootfs-hash": "sha384:e01d925f90b097b554be0f802ef6ebb9f07000d7a6a2a0c3a25dac26893d4ac2414381e2c8e60f4b58b27c7fe8e56099",
-                  "rootfs-url": "/api/gears/temp/5a39aa4e07a393001b663910"
-                },
-                "modified": "2017-12-20T00:09:50.381000+00:00",
-                "_id": "5a39aa4e07a393001b663910"
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Create or update a gear.",
-        "description": "If no existing gear is found, one will be created\nOtherwise, the specified gear will be updated\n",
-        "operationId": "add_gear",
-        "parameters": [
-          {
-            "name": "GearIdOrName",
-            "in": "path",
-            "type": "string",
-            "required": true,
-            "description": "Name of the gear to interact with"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "title": "Analysis",
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/gear-doc"
-                }
-              ],
               "example": {
-                "category": "converter",
-                "gear": {
-                  "inputs": {
-                    "audio": {
-                      "base": "file",
-                      "description": "Any audio file. Plain speech suggested!"
-                    }
-                  },
-                  "maintainer": "Nathaniel Kofalt",
-                  "description": "Detects the speech content of an audio file, using the machine-learning DeepSpeech library by Mozilla.",
-                  "license": "Other",
+                "name": "test-case-gear",
+                "manifest": {
+                  "name": "test-case-gear",
+                  "label": "Test Case Gear",
+                  "version": "0",
                   "author": "Nathaniel Kofalt",
-                  "url": "",
-                  "label": "Speech Recognition",
-                  "source": "https://github.com/mozilla/DeepSpeech",
-                  "version": "1",
-                  "custom": {
-                    "gear-builder": {
-                      "image": "gear-builder-kdfqapbezk-20171219165918",
-                      "container": "c15189b625a0ea450cafbb24ef0df03c26cc8cf151181976ec4289801e191032"
+                  "description": "A gear built to drive test cases",
+                  "url": "http://none.example",
+                  "source": "http://none.example",
+                  "license": "MIT",
+                  "config": {
+                    "two-digit multiple of ten": {
+                      "exclusiveMaximum": true,
+                      "type": "number",
+                      "multipleOf": 10,
+                      "maximum": 100
                     }
                   },
-                  "config": {},
-                  "name": "speech-recognition"
+                  "inputs": {
+                    "any text file <= 100 KB": {
+                      "base": "file",
+                      "name": {
+                        "pattern": "^.*.txt$"
+                      },
+                      "size": {
+                        "maximum": 100000
+                      }
+                    }
+                  }
                 },
-                "exchange": {
-                  "git-commit": "local",
-                  "rootfs-hash": "sha384:e01d925f90b097b554be0f802ef6ebb9f07000d7a6a2a0c3a25dac26893d4ac2414381e2c8e60f4b58b27c7fe8e56099",
-                  "rootfs-url": "/api/gears/temp/5a39aa4e07a393001b663910"
-                }
+                "input": {}
               }
-            }
-          }
-        ],
-        "tags": [
-          "gears"
-        ],
-        "responses": {
-          "200": {
-            "description": "The gear was created or updated successfully",
-            "schema": {
-              "$ref": "#/definitions/collection-new-output"
             }
           }
         }
@@ -2081,11 +1785,11 @@
         ],
         "parameters": [
           {
-            "name": "GearIdOrName",
-            "in": "path",
-            "type": "string",
             "required": true,
-            "description": "Id of the gear to interact with"
+            "description": "Id of the gear to interact with",
+            "type": "string",
+            "in": "path",
+            "name": "GearIdOrName"
           }
         ],
         "responses": {
@@ -2184,11 +1888,6 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/device-input"
-                }
-              ],
               "example": {
                 "info": {
                   "basic": "info"
@@ -2197,7 +1896,20 @@
                   "An Error"
                 ],
                 "interval": 400
-              }
+              },
+              "type": "object",
+              "properties": {
+                "interval": {
+                  "type": "integer"
+                },
+                "errors": {
+                  "$ref": "#/definitions/device-errors"
+                },
+                "info": {
+                  "$ref": "#/definitions/common-info"
+                }
+              },
+              "additionalProperties": false
             }
           }
         ]
@@ -2215,11 +1927,7 @@
           "200": {
             "description": "",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/device-output"
-                }
-              ]
+              "$ref": "#/definitions/device-output"
             },
             "examples": {
               "response": {
@@ -2252,11 +1960,7 @@
           "200": {
             "description": "",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/device-status"
-                }
-              ]
+              "$ref": "#/definitions/device-status"
             },
             "examples": {
               "response": {
@@ -2308,11 +2012,7 @@
           "200": {
             "description": "",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/device-output"
-                }
-              ]
+              "$ref": "#/definitions/device-output"
             },
             "examples": {
               "response": {
@@ -2347,11 +2047,7 @@
           "200": {
             "description": "",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/group-output-list"
-                }
-              ]
+              "$ref": "#/definitions/group-output-list"
             },
             "examples": {
               "response": [
@@ -2390,7 +2086,6 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
               "allOf": [
                 {
@@ -2487,16 +2182,27 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/group-input"
-                }
-              ],
               "example": {
                 "label": "New group label"
-              }
+              },
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "maxLength": 64,
+                  "minLength": 2,
+                  "pattern": "^[0-9a-z][0-9a-z.@_-]{0,30}[0-9a-z]$"
+                },
+                "label": {
+                  "maxLength": 64,
+                  "minLength": 1,
+                  "pattern": "^[0-9A-Za-z][0-9A-Za-z .@_-]{0,30}[0-9A-Za-z]$",
+                  "title": "label",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
             }
           }
         ],
@@ -2708,11 +2414,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/permission-output-default-required"
-                }
-              ]
+              "$ref": "#/definitions/permission-output-default-required"
             },
             "examples": {
               "response": {
@@ -2793,16 +2495,21 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -2842,11 +2549,7 @@
           "200": {
             "description": "Returns a single tag by name",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ]
+              "$ref": "#/definitions/tag"
             },
             "examples": {
               "response": {
@@ -2867,14 +2570,20 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -3101,13 +2810,6 @@
             "in": "body",
             "name": "body",
             "schema": {
-              "title": "Collection",
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/collection-input-with-contents"
-                }
-              ],
               "example": {
                 "contents": {
                   "operation": "add",
@@ -3118,7 +2820,28 @@
                     }
                   ]
                 }
-              }
+              },
+              "type": "object",
+              "properties": {
+                "public": {
+                  "type": "boolean"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "info": {
+                  "$ref": "#/definitions/container-info"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "contents": {
+                  "type": "object"
+                }
+              },
+              "additionalProperties": false
             }
           }
         ],
@@ -3431,16 +3154,21 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -3480,11 +3208,7 @@
           "200": {
             "description": "Returns a single tag by name",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ]
+              "$ref": "#/definitions/tag"
             },
             "examples": {
               "response": {
@@ -3505,14 +3229,20 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -3599,11 +3329,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/file-output"
-                  }
-                ]
+                "$ref": "#/definitions/file-output"
               }
             },
             "examples": {
@@ -3689,7 +3415,7 @@
       ],
       "post": {
         "summary": "Upload a file to collection.",
-        "operationId": "upload_file_to_collection",
+        "operationId": "upload_collection_file",
         "tags": [
           "collections"
         ],
@@ -3730,7 +3456,7 @@
       "get": {
         "summary": "Download a file.",
         "description": "If \"ticket\" is specified by empty, a download ticket will be created\nIf \"ticket\" is not specified, the file will be download\nIf \"ticket\" is specified and not empty, the file will be downloaded\n",
-        "operationId": "download_file_from_collection",
+        "operationId": "download_collection_file",
         "tags": [
           "collections"
         ],
@@ -3746,7 +3472,6 @@
             "description": "ticket id of the file to download"
           }
         ],
-        "x-sdk-download-ticket": "get_collection_download_ticket",
         "responses": {
           "200": {
             "description": "",
@@ -3770,18 +3495,6 @@
         "responses": {
           "default": {
             "description": ""
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete a file",
-        "operationId": "delete_collection_file",
-        "tags": [
-          "collections"
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200:modified-with-count"
           }
         }
       }
@@ -3859,11 +3572,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/permission-output-default-required"
-                }
-              ]
+              "$ref": "#/definitions/permission-output-default-required"
             },
             "examples": {
               "response": {
@@ -3943,7 +3652,6 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "allOf": [
@@ -3996,11 +3704,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/note-output"
-                }
-              ]
+              "$ref": "#/definitions/note-output"
             },
             "examples": {
               "response": {
@@ -4024,7 +3728,6 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "allOf": [
@@ -4121,11 +3824,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/analysis-output"
-                }
-              ]
+              "$ref": "#/definitions/analysis-output"
             },
             "examples": {
               "response": {
@@ -4483,7 +4182,7 @@
       },
       "post": {
         "summary": "Create a new session",
-        "operationId": "add_session",
+        "operationId": "create_session",
         "tags": [
           "sessions"
         ],
@@ -4491,7 +4190,6 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
               "title": "Session",
               "allOf": [
@@ -4569,7 +4267,6 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
               "title": "Session",
               "allOf": [
@@ -4665,16 +4362,21 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -4714,11 +4416,7 @@
           "200": {
             "description": "Returns a single tag by name",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ]
+              "$ref": "#/definitions/tag"
             },
             "examples": {
               "response": {
@@ -4739,14 +4437,20 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -4833,11 +4537,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/file-output"
-                  }
-                ]
+                "$ref": "#/definitions/file-output"
               }
             },
             "examples": {
@@ -4923,7 +4623,7 @@
       ],
       "post": {
         "summary": "Upload a file to session.",
-        "operationId": "upload_file_to_session",
+        "operationId": "upload_session_file",
         "tags": [
           "sessions"
         ],
@@ -4964,7 +4664,7 @@
       "get": {
         "summary": "Download a file.",
         "description": "If \"ticket\" is specified by empty, a download ticket will be created\nIf \"ticket\" is not specified, the file will be download\nIf \"ticket\" is specified and not empty, the file will be downloaded\n",
-        "operationId": "download_file_from_session",
+        "operationId": "download_session_file",
         "tags": [
           "sessions"
         ],
@@ -4980,7 +4680,6 @@
             "description": "ticket id of the file to download"
           }
         ],
-        "x-sdk-download-ticket": "get_session_download_ticket",
         "responses": {
           "200": {
             "description": "",
@@ -5006,18 +4705,6 @@
             "description": ""
           }
         }
-      },
-      "delete": {
-        "summary": "Delete a file",
-        "operationId": "delete_session_file",
-        "tags": [
-          "sessions"
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200:modified-with-count"
-          }
-        }
       }
     },
     "/sessions/{SessionId}/notes": {
@@ -5039,7 +4726,6 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "allOf": [
@@ -5092,11 +4778,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/note-output"
-                }
-              ]
+              "$ref": "#/definitions/note-output"
             },
             "examples": {
               "response": {
@@ -5120,7 +4802,6 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "allOf": [
@@ -5222,11 +4903,6 @@
             "in": "body",
             "name": "body",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/analysis-job"
-                }
-              ],
               "example": {
                 "analysis": {
                   "label": "Test Analysis 1"
@@ -5243,6 +4919,24 @@
                   "tags": [
                     "example"
                   ]
+                }
+              },
+              "type": "object",
+              "properties": {
+                "analysis": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/analysis-input"
+                    }
+                  ],
+                  "required": [
+                    "label"
+                  ]
+                },
+                "job": {
+                  "type": "object",
+                  "$ref": "#/definitions/job-input"
                 }
               }
             }
@@ -5286,11 +4980,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/analysis-output"
-                }
-              ]
+              "$ref": "#/definitions/analysis-output"
             },
             "examples": {
               "response": {
@@ -5647,7 +5337,7 @@
       },
       "post": {
         "summary": "Create a new acquisition",
-        "operationId": "add_acquisition",
+        "operationId": "create_acquisition",
         "tags": [
           "acquisitions"
         ],
@@ -5655,7 +5345,6 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
               "title": "Acquisition",
               "type": "object",
@@ -5737,18 +5426,41 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
-              "title": "Acquisition",
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/acquisition-input"
-                }
-              ],
               "example": {
                 "label": "example-acquisition-new-label"
-              }
+              },
+              "type": "object",
+              "properties": {
+                "public": {
+                  "type": "boolean"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "info": {
+                  "$ref": "#/definitions/container-info"
+                },
+                "archived": {
+                  "type": "boolean"
+                },
+                "session": {
+                  "type": "string",
+                  "pattern": "^[a-fA-F0-9]{24}$"
+                },
+                "uid": {
+                  "type": "string"
+                },
+                "timestamp": {
+                  "$ref": "#/definitions/container-timestamp"
+                },
+                "timezone": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
             }
           }
         ],
@@ -5794,16 +5506,21 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -5843,11 +5560,7 @@
           "200": {
             "description": "Returns a single tag by name",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ]
+              "$ref": "#/definitions/tag"
             },
             "examples": {
               "response": {
@@ -5868,14 +5581,20 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -5962,11 +5681,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/file-output"
-                  }
-                ]
+                "$ref": "#/definitions/file-output"
               }
             },
             "examples": {
@@ -6052,7 +5767,7 @@
       ],
       "post": {
         "summary": "Upload a file to acquisition.",
-        "operationId": "upload_file_to_acquisition",
+        "operationId": "upload_acquisition_file",
         "tags": [
           "acquisitions"
         ],
@@ -6093,7 +5808,7 @@
       "get": {
         "summary": "Download a file.",
         "description": "If \"ticket\" is specified by empty, a download ticket will be created\nIf \"ticket\" is not specified, the file will be download\nIf \"ticket\" is specified and not empty, the file will be downloaded\n",
-        "operationId": "download_file_from_acquisition",
+        "operationId": "download_acquisition_file",
         "tags": [
           "acquisitions"
         ],
@@ -6109,7 +5824,6 @@
             "description": "ticket id of the file to download"
           }
         ],
-        "x-sdk-download-ticket": "get_acquisition_download_ticket",
         "responses": {
           "200": {
             "description": "",
@@ -6135,18 +5849,6 @@
             "description": ""
           }
         }
-      },
-      "delete": {
-        "summary": "Delete a file",
-        "operationId": "delete_acquisition_file",
-        "tags": [
-          "acquisitions"
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200:modified-with-count"
-          }
-        }
       }
     },
     "/acquisitions/{AcquisitionId}/notes": {
@@ -6168,7 +5870,6 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "allOf": [
@@ -6221,11 +5922,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/note-output"
-                }
-              ]
+              "$ref": "#/definitions/note-output"
             },
             "examples": {
               "response": {
@@ -6249,7 +5946,6 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "allOf": [
@@ -6346,11 +6042,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/analysis-output"
-                }
-              ]
+              "$ref": "#/definitions/analysis-output"
             },
             "examples": {
               "response": {
@@ -6706,7 +6398,7 @@
       },
       "post": {
         "summary": "Create a new project",
-        "operationId": "add_project",
+        "operationId": "create_project",
         "tags": [
           "projects"
         ],
@@ -6714,7 +6406,6 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
               "title": "Project",
               "type": "object",
@@ -6791,15 +6482,10 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
               "title": "Project",
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/project-input"
-                }
-              ]
+              "$ref": "#/definitions/project-input"
             }
           }
         ],
@@ -6836,11 +6522,7 @@
           "200": {
             "description": "",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/group-output-list"
-                }
-              ]
+              "$ref": "#/definitions/group-output-list"
             }
           }
         }
@@ -6941,11 +6623,9 @@
         }
       ],
       "get": {
-        "summary": "List all rules for a project.",
         "operationId": "get_project_rules",
         "tags": [
-          "projects",
-          "rules"
+          "projects"
         ],
         "responses": {
           "200": {
@@ -6963,8 +6643,7 @@
         "summary": "Create a new rule for a project.",
         "operationId": "add_project_rule",
         "tags": [
-          "projects",
-          "rules"
+          "projects"
         ],
         "responses": {
           "default": {
@@ -7009,51 +6688,11 @@
           "required": true
         }
       ],
-      "get": {
-        "summary": "Get a project rule.",
-        "operationId": "get_project_rule",
-        "tags": [
-          "projects",
-          "rules"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "title": "Rule",
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/rule-output"
-                }
-              ],
-              "example": {
-                "_id": "5a12f2923306be0016179f47",
-                "name": "dcm2niix",
-                "alg": "dcm2niix",
-                "any": [],
-                "all": [
-                  {
-                    "regex": true,
-                    "type": "file.measurements",
-                    "value": "^(?!non-image).+$"
-                  },
-                  {
-                    "type": "file.type",
-                    "value": "nifti"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
       "put": {
         "summary": "Update a rule on a project.",
         "operationId": "modify_project_rule",
         "tags": [
-          "projects",
-          "rules"
+          "projects"
         ],
         "responses": {
           "default": {
@@ -7067,27 +6706,10 @@
             "schema": {
               "title": "Rule",
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/rule-input"
-                }
-              ]
+              "$ref": "#/definitions/rule-input"
             }
           }
         ]
-      },
-      "delete": {
-        "summary": "Remove a project rule.",
-        "operationId": "remove_project_rule",
-        "tags": [
-          "projects",
-          "rules"
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200:deleted-with-count"
-          }
-        }
       }
     },
     "/projects/{ProjectId}/template": {
@@ -7206,16 +6828,21 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -7255,11 +6882,7 @@
           "200": {
             "description": "Returns a single tag by name",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ]
+              "$ref": "#/definitions/tag"
             },
             "examples": {
               "response": {
@@ -7280,14 +6903,20 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/tag"
-                }
-              ],
               "example": {
                 "value": "example-tag"
-              }
+              },
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "value"
+              ]
             }
           }
         ],
@@ -7374,11 +7003,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/file-output"
-                  }
-                ]
+                "$ref": "#/definitions/file-output"
               }
             },
             "examples": {
@@ -7464,7 +7089,7 @@
       ],
       "post": {
         "summary": "Upload a file to project.",
-        "operationId": "upload_file_to_project",
+        "operationId": "upload_project_file",
         "tags": [
           "projects"
         ],
@@ -7505,7 +7130,7 @@
       "get": {
         "summary": "Download a file.",
         "description": "If \"ticket\" is specified by empty, a download ticket will be created\nIf \"ticket\" is not specified, the file will be download\nIf \"ticket\" is specified and not empty, the file will be downloaded\n",
-        "operationId": "download_file_from_project",
+        "operationId": "download_project_file",
         "tags": [
           "projects"
         ],
@@ -7521,7 +7146,6 @@
             "description": "ticket id of the file to download"
           }
         ],
-        "x-sdk-download-ticket": "get_project_download_ticket",
         "responses": {
           "200": {
             "description": "",
@@ -7545,18 +7169,6 @@
         "responses": {
           "default": {
             "description": ""
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete a file",
-        "operationId": "delete_project_file",
-        "tags": [
-          "projects"
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200:modified-with-count"
           }
         }
       }
@@ -7634,11 +7246,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/permission-output-default-required"
-                }
-              ]
+              "$ref": "#/definitions/permission-output-default-required"
             },
             "examples": {
               "response": {
@@ -7718,7 +7326,6 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "allOf": [
@@ -7771,11 +7378,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/note-output"
-                }
-              ]
+              "$ref": "#/definitions/note-output"
             },
             "examples": {
               "response": {
@@ -7799,7 +7402,6 @@
           {
             "in": "body",
             "name": "body",
-            "required": true,
             "schema": {
               "type": "object",
               "allOf": [
@@ -7896,11 +7498,7 @@
             "description": "",
             "schema": {
               "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/analysis-output"
-                }
-              ]
+              "$ref": "#/definitions/analysis-output"
             },
             "examples": {
               "response": {
@@ -8400,383 +7998,6 @@
           }
         }
       }
-    },
-    "/analyses/{AnalysisId}": {
-      "parameters": [
-        {
-          "required": true,
-          "type": "string",
-          "in": "path",
-          "name": "AnalysisId"
-        }
-      ],
-      "get": {
-        "summary": "Get an analysis.",
-        "operationId": "get_analysis",
-        "tags": [
-          "analyses"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/analysis-output"
-                }
-              ]
-            },
-            "examples": {
-              "response": {
-                "files": [
-                  {
-                    "origin": {
-                      "type": "job",
-                      "id": "58063f24e5dc5b001657a87f"
-                    },
-                    "mimetype": "application/octet-stream",
-                    "hash": "v0-sha384-12188e00a26650b2baa3f0195337dcf504f4362bb2136eef0cdbefb57159356b1355a0402fca0ab5ab081f21c305e5c2",
-                    "name": "cortical_surface_right_hemisphere.obj",
-                    "tags": [],
-                    "measurements": [],
-                    "modified": "2016-10-18T15:26:35.701000+00:00",
-                    "modality": null,
-                    "input": true,
-                    "size": 21804112,
-                    "type": "None",
-                    "info": {}
-                  },
-                  {
-                    "origin": {
-                      "type": "job",
-                      "id": "58065fa7e5dc5b001457a882"
-                    },
-                    "mimetype": "application/octet-stream",
-                    "hash": "v0-sha384-12188e00a26650b2baa3f0195337dcf504f4362bb2136eef0cdbefb57159356b1355a0402fca0ab5ab081f21c305e5c2",
-                    "name": "cortical_surface_right_hemisphere.obj",
-                    "tags": [],
-                    "measurements": [],
-                    "modified": "2016-10-18T17:45:17.776000+00:00",
-                    "modality": null,
-                    "output": true,
-                    "info": {},
-                    "type": "None",
-                    "size": 21804112
-                  }
-                ],
-                "created": "2016-10-18T17:45:11.778000+00:00",
-                "modified": "2016-10-18T17:45:11.778000+00:00",
-                "label": "cortex-demo 10/18/2016 13:45:5",
-                "job": {
-                  "inputs": {
-                    "anatomy": {
-                      "type": "analysis",
-                      "id": "58063f24e5dc5b001657a87e",
-                      "name": "cortical_surface_right_hemisphere.obj"
-                    }
-                  },
-                  "attempt": 1,
-                  "name": "cortex-demo",
-                  "tags": [
-                    "ad-hoc",
-                    "cortex-demo",
-                    "analysis"
-                  ],
-                  "destination": {
-                    "type": "analysis",
-                    "id": "58065fa7e5dc5b001457a881"
-                  },
-                  "request": {
-                    "inputs": [
-                      {
-                        "location": "/",
-                        "type": "http",
-                        "uri": "https://storage.googleapis.com/flywheel/gears/v1/scitran/cortex-demo/cortex-demo_manifest-labels_20160725T031837.331720Z.tar.gz",
-                        "vu": "vu0:sha384:ssx5VWyFg7r8IBoOIphq7GaB_CymInQ1NxTV2WTDzglJLJ1-ktEbjLIHVABRzesV"
-                      },
-                      {
-                        "type": "scitran",
-                        "uri": "/jobs/58065fa7e5dc5b001457a882/config.json",
-                        "location": "/flywheel/v0"
-                      },
-                      {
-                        "type": "scitran",
-                        "uri": "/sessions/58063e7ed213ed776045b320/analyses/58063f24e5dc5b001657a87e/files/cortical_surface_right_hemisphere.obj",
-                        "location": "/flywheel/v0/input/anatomy"
-                      }
-                    ],
-                    "target": {
-                      "command": [
-                        "bash",
-                        "-c",
-                        "rm -rf output; mkdir -p output; ./run; echo \"Exit was $?\""
-                      ],
-                      "env": {
-                        "PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-                      },
-                      "dir": "/flywheel/v0"
-                    },
-                    "outputs": [
-                      {
-                        "type": "scitran",
-                        "uri": "/engine?level=analysis&id=58065fa7e5dc5b001457a881&job=58065fa7e5dc5b001457a882",
-                        "location": "/flywheel/v0/output"
-                      }
-                    ]
-                  },
-                  "modified": "2016-10-18T17:45:21.344000+00:00",
-                  "created": "2016-10-18T17:45:11.816000+00:00",
-                  "state": "complete",
-                  "config": {},
-                  "id": "58065fa7e5dc5b001457a882"
-                },
-                "user": "canakgun@flywheel.io",
-                "_id": "58065fa7e5dc5b001457a881"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/analyses/{AnalysisId}/files": {
-      "parameters": [
-        {
-          "required": true,
-          "type": "string",
-          "in": "path",
-          "name": "AnalysisId"
-        }
-      ],
-      "get": {
-        "summary": "Download analysis files.",
-        "description": "If \"ticket\" query param is included and not empty, download files.\nIf \"ticket\" query param is included and empty, create a ticket for all files in the anlaysis\nIf no \"ticket\" query param is included, server error 500\n",
-        "operationId": "download_analysis_files",
-        "tags": [
-          "analyses"
-        ],
-        "produces": [
-          "application/json",
-          "application/octet-stream"
-        ],
-        "parameters": [
-          {
-            "description": "ticket id of the files to download",
-            "type": "string",
-            "in": "query",
-            "name": "ticket"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/analysis-files-create-ticket-output"
-            },
-            "examples": {
-              "response": {
-                "ticket": "57f2af23-a94c-426d-8521-11b2e8782020",
-                "filename": "exampledicom.zip",
-                "file_cnt": 1,
-                "size": 4525137
-              }
-            }
-          }
-        }
-      }
-    },
-    "/analyses/{AnalysisId}/files/{Filename}": {
-      "parameters": [
-        {
-          "required": true,
-          "type": "string",
-          "in": "path",
-          "name": "AnalysisId"
-        },
-        {
-          "required": true,
-          "type": "string",
-          "in": "path",
-          "description": "regex to select files for download",
-          "name": "Filename"
-        }
-      ],
-      "get": {
-        "summary": "Download anaylsis files with filter.",
-        "description": "If \"ticket\" query param is included and not empty, download files.\nIf \"ticket\" query param is included and empty, create a ticket for matching files in the anlaysis.\nIf no \"ticket\" query param is included, files will be downloaded directly.\n",
-        "operationId": "download_analysis_files_by_filename",
-        "tags": [
-          "analyses"
-        ],
-        "produces": [
-          "application/json",
-          "application/octet-stream"
-        ],
-        "parameters": [
-          {
-            "description": "ticket id of the files to download",
-            "type": "string",
-            "in": "query",
-            "name": "ticket"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/analysis-files-create-ticket-output"
-            },
-            "examples": {
-              "response": {
-                "ticket": "57f2af23-a94c-426d-8521-11b2e8782020",
-                "filename": "exampledicom.zip",
-                "file_cnt": 1,
-                "size": 4525137
-              }
-            }
-          }
-        }
-      }
-    },
-    "/site/rules": {
-      "get": {
-        "summary": "List all site rules.",
-        "operationId": "get_site_rules",
-        "tags": [
-          "rules"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/rule-output"
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Create a new site rule.",
-        "operationId": "add_site_rule",
-        "tags": [
-          "rules"
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "title": "Rule",
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/rule-input"
-                }
-              ],
-              "required": [
-                "alg",
-                "name",
-                "any",
-                "all"
-              ]
-            }
-          }
-        ]
-      }
-    },
-    "/site/rules/{RuleId}": {
-      "parameters": [
-        {
-          "name": "RuleId",
-          "type": "string",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "get": {
-        "summary": "Get a site rule.",
-        "operationId": "get_site_rule",
-        "tags": [
-          "rules"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "title": "Rule",
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/rule-output"
-                }
-              ],
-              "example": {
-                "_id": "5a12f2923306be0016179f47",
-                "name": "dcm2niix",
-                "alg": "dcm2niix",
-                "any": [],
-                "all": [
-                  {
-                    "regex": true,
-                    "type": "file.measurements",
-                    "value": "^(?!non-image).+$"
-                  },
-                  {
-                    "type": "file.type",
-                    "value": "nifti"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "Update a site rule.",
-        "operationId": "modify_site_rule",
-        "tags": [
-          "rules"
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "title": "Rule",
-              "type": "object",
-              "allOf": [
-                {
-                  "$ref": "#/definitions/rule-input"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "delete": {
-        "summary": "Remove a site rule.",
-        "operationId": "remove_site_rule",
-        "tags": [
-          "rules"
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/200:deleted-with-count"
-          }
-        }
-      }
     }
   },
   "securityDefinitions": {
@@ -8968,18 +8189,10 @@
           }
         },
         "notes": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/notes-list-output"
-            }
-          ]
+          "$ref": "#/definitions/notes-list-output"
         },
         "tags": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/tag-output-list"
-            }
-          ]
+          "$ref": "#/definitions/tag-output-list"
         },
         "analyses": {
           "type": "array",
@@ -9108,11 +8321,7 @@
         },
         "job": {
           "type": "object",
-          "allOf": [
-            {
-              "$ref": "#/definitions/job-input"
-            }
-          ]
+          "$ref": "#/definitions/job-input"
         }
       }
     },
@@ -9138,28 +8347,6 @@
         "filename",
         "file_cnt",
         "size"
-      ]
-    },
-    "auth-login-output": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "token"
-      ]
-    },
-    "auth-logout-output": {
-      "type": "object",
-      "properties": {
-        "tokens_removed": {
-          "type": "integer"
-        }
-      },
-      "required": [
-        "tokens_removed"
       ]
     },
     "avatars": {
@@ -9235,8 +8422,7 @@
       },
       "required": [
         "_id"
-      ],
-      "x-sdk-return": "_id"
+      ]
     },
     "collection-output": {
       "type": "object",
@@ -9325,8 +8511,7 @@
         "_id": {
           "type": "string"
         }
-      },
-      "x-sdk-return": "_id"
+      }
     },
     "config-site-config-output": {
       "type": "object",
@@ -9389,10 +8574,7 @@
           "type": "string"
         },
         "auth": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/config-auth-output"
-          }
+          "type": "object"
         },
         "created": {
           "type": "string"
@@ -9421,39 +8603,13 @@
       },
       "required": [
         "_id"
-      ],
-      "x-sdk-return": "_id"
+      ]
     },
     "device-errors": {
       "type": "array",
       "items": {
         "type": "string"
       }
-    },
-    "device-status-entry": {
-      "type": "object",
-      "properties": {
-        "errors": {
-          "$ref": "#/definitions/device-errors"
-        },
-        "last_seen": {
-          "$ref": "#/definitions/common-timestamp"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "ok",
-            "missing",
-            "error",
-            "unknown"
-          ]
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "last_seen",
-        "status"
-      ]
     },
     "device": {
       "type": "object",
@@ -9512,10 +8668,7 @@
       ]
     },
     "device-status": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/device-status-entry"
-      }
+      "type": "object"
     },
     "download-filter-definition": {
       "type": "object",
@@ -9959,200 +9112,6 @@
         "size"
       ]
     },
-    "gear-directive": {
-      "type": "object",
-      "description": "A schema directive."
-    },
-    "gear-config": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/gear-directive"
-      },
-      "description": "Schema snippets describing the options this gear consumes. Not currently processed."
-    },
-    "gear-custom": {
-      "type": "object",
-      "description": "A place for gear authors to put arbitrary information."
-    },
-    "gear-environment": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "string"
-      },
-      "description": "Environment variables that should be set for the gear."
-    },
-    "gear-input-item": {
-      "description": "Describes a gear input",
-      "properties": {
-        "base": {
-          "type": "string",
-          "enum": [
-            "file",
-            "api-key"
-          ],
-          "description": "The type of gear input."
-        },
-        "description": {
-          "type": "string",
-          "description": "Hackaround for description not technically being a schema directive"
-        },
-        "optional": {
-          "type": "boolean",
-          "description": "Allow the gear to mark an input file as optional."
-        }
-      },
-      "required": [
-        "base"
-      ],
-      "additionalProperties": {
-        "$ref": "#/definitions/gear-directive"
-      }
-    },
-    "gear-inputs": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "object",
-        "additionalProperties": {
-          "$ref": "#/definitions/gear-input-item"
-        }
-      },
-      "description": "Schema snippets describing the inputs this gear consumes."
-    },
-    "gear-exchange": {
-      "type": "object",
-      "description": "Metadata object that describes the origin of a gear version",
-      "properties": {
-        "git-commit": {
-          "type": "string",
-          "description": "The SHA-1 hash referring to the git commit"
-        },
-        "rootfs-hash": {
-          "type": "string",
-          "description": "The cryptographic hash of the root filesystem in the form of \"algorithm:<base16 hash>\""
-        },
-        "rootfs-url": {
-          "type": "string",
-          "description": "The absolute URL of the gear's root file system"
-        }
-      },
-      "required": [
-        "git-commit",
-        "rootfs-hash",
-        "rootfs-url"
-      ]
-    },
-    "gear": {
-      "type": "object",
-      "description": "Gear manifest",
-      "properties": {
-        "author": {
-          "type": "string",
-          "description": "The author of this gear."
-        },
-        "maintainer": {
-          "type": "string",
-          "description": "(optional) The maintainer of this gear. Can be used to distinguish the algorithm author from the gear maintainer."
-        },
-        "cite": {
-          "type": "string",
-          "description": "(optional) Any citations relevant to the algorithm(s) or work present in the gear."
-        },
-        "config": {
-          "$ref": "#/definitions/gear-config"
-        },
-        "custom": {
-          "$ref": "#/definitions/gear-custom"
-        },
-        "description": {
-          "type": "string",
-          "description": "A brief description of the gear's purpose. Ideally 1-4 sentences."
-        },
-        "environment": {
-          "$ref": "#/definitions/gear-environment"
-        },
-        "command": {
-          "type": "string",
-          "description": "If provided, the starting command for the gear, rather than /flywheel/v0/run. Will be templated according to the spec."
-        },
-        "inputs": {
-          "$ref": "#/definitions/gear-inputs"
-        },
-        "label": {
-          "type": "string",
-          "description": "The human-friendly name of this gear."
-        },
-        "license": {
-          "type": "string",
-          "description": "Software license of the gear"
-        },
-        "name": {
-          "type": "string",
-          "pattern": "^[a-z0-9\\-]+$",
-          "description": "The identification of this gear."
-        },
-        "source": {
-          "type": "string",
-          "description": "A valid URI, or empty string."
-        },
-        "url": {
-          "type": "string",
-          "description": "A valid URI, or empty string."
-        },
-        "version": {
-          "type": "string",
-          "description": "A human-friendly string explaining the release version of this gear. Example: 3.2.1"
-        }
-      },
-      "required": [
-        "author",
-        "config",
-        "description",
-        "inputs",
-        "label",
-        "license",
-        "name",
-        "source",
-        "url",
-        "version"
-      ],
-      "x-sdk-include-empty": [
-        "config",
-        "inputs"
-      ],
-      "additionalProperties": false
-    },
-    "gear-doc": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string",
-          "pattern": "^[a-fA-F0-9]{24}$"
-        },
-        "category": {
-          "type": "string",
-          "enum": [
-            "utility",
-            "analysis",
-            "converter",
-            "qa"
-          ],
-          "description": "The gear category"
-        },
-        "gear": {
-          "$ref": "#/definitions/gear"
-        },
-        "exchange": {
-          "$ref": "#/definitions/gear-exchange"
-        },
-        "created": {
-          "type": "string"
-        },
-        "modified": {
-          "type": "string"
-        }
-      },
-      "description": "A full gear description, including manifest and exchange information"
-    },
     "group": {
       "type": "object",
       "properties": {
@@ -10177,12 +9136,6 @@
         },
         "modified": {
           "type": "string"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       },
       "additionalProperties": false
@@ -10241,8 +9194,7 @@
       },
       "required": [
         "_id"
-      ],
-      "x-sdk-return": "_id"
+      ]
     },
     "group-output-list": {
       "type": "array",
@@ -10268,7 +9220,6 @@
       }
     },
     "info-add-remove": {
-      "type": "object",
       "properties": {
         "set": {
           "type": "object",
@@ -10286,7 +9237,6 @@
       "additionalProperties": false
     },
     "info-replace": {
-      "type": "object",
       "properties": {
         "replace": {
           "type": "object"
@@ -10319,7 +9269,6 @@
       "type": "object",
       "properties": {
         "type": {
-          "type": "string",
           "enum": [
             "http",
             "scitran"
@@ -10362,10 +9311,7 @@
       "additionalProperties": false
     },
     "job-inputs-object": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/job-inputs-entry"
-      }
+      "type": "object"
     },
     "job-inputs-array": {
       "type": "array",
@@ -10418,36 +9364,6 @@
         "id"
       ],
       "additionalProperties": false
-    },
-    "job-log-statement": {
-      "type": "object",
-      "properties": {
-        "fd": {
-          "type": "integer"
-        },
-        "msg": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "fd",
-        "msg"
-      ]
-    },
-    "job-log": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^[a-fA-F0-9]{24}$"
-        },
-        "logs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/job-log-statement"
-          }
-        }
-      }
     },
     "job-saved-files": {
       "type": "array",
@@ -10586,8 +9502,7 @@
       "type": "object",
       "properties": {
         "text": {
-          "type": "string",
-          "x-sdk-positional": true
+          "type": "string"
         }
       },
       "additionalProperties": false
@@ -10595,11 +9510,7 @@
     "notes-list-input": {
       "type": "array",
       "items": {
-        "allOf": [
-          {
-            "$ref": "#/definitions/note-input"
-          }
-        ]
+        "$ref": "#/definitions/note-input"
       }
     },
     "note-output": {
@@ -10610,8 +9521,7 @@
           "pattern": "^[a-fA-F0-9]{24}$"
         },
         "text": {
-          "type": "string",
-          "x-sdk-positional": true
+          "type": "string"
         },
         "created": {
           "type": "string"
@@ -10636,11 +9546,7 @@
     "notes-list-output": {
       "type": "array",
       "items": {
-        "allOf": [
-          {
-            "$ref": "#/definitions/note-output"
-          }
-        ]
+        "$ref": "#/definitions/note-output"
       }
     },
     "packfile-project-input": {
@@ -10735,6 +9641,13 @@
         }
       }
     },
+    "permission-access": {
+      "enum": [
+        "ro",
+        "rw",
+        "admin"
+      ]
+    },
     "permission": {
       "type": "object",
       "properties": {
@@ -10743,12 +9656,7 @@
           "format": "email"
         },
         "access": {
-          "type": "string",
-          "enum": [
-            "ro",
-            "rw",
-            "admin"
-          ]
+          "$ref": "#/definitions/permission-access"
         }
       },
       "additionalProperties": false
@@ -10893,11 +9801,7 @@
         "files": {
           "type": "array",
           "items": {
-            "allOf": [
-              {
-                "$ref": "#/definitions/file-output"
-              }
-            ]
+            "$ref": "#/definitions/file-output"
           }
         },
         "notes": {
@@ -10939,25 +9843,13 @@
       "type": "object",
       "properties": {
         "Not Hispanic or Latino": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-gender-count"
-            }
-          ]
+          "$ref": "#/definitions/report-gender-count"
         },
         "Hispanic or Latino": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-gender-count"
-            }
-          ]
+          "$ref": "#/definitions/report-gender-count"
         },
         "Unknown or Not Reported": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-gender-count"
-            }
-          ]
+          "$ref": "#/definitions/report-gender-count"
         },
         "Total": {
           "type": "integer"
@@ -10968,60 +9860,28 @@
       "type": "object",
       "properties": {
         "Black or African American": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-ethnicity-grid"
-            }
-          ]
+          "$ref": "#/definitions/report-ethnicity-grid"
         },
         "Unknown or Not Reported": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-ethnicity-grid"
-            }
-          ]
+          "$ref": "#/definitions/report-ethnicity-grid"
         },
         "American Indian or Alaska Native": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-ethnicity-grid"
-            }
-          ]
+          "$ref": "#/definitions/report-ethnicity-grid"
         },
         "Asian": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-ethnicity-grid"
-            }
-          ]
+          "$ref": "#/definitions/report-ethnicity-grid"
         },
         "White": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-ethnicity-grid"
-            }
-          ]
+          "$ref": "#/definitions/report-ethnicity-grid"
         },
         "Total": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-ethnicity-grid"
-            }
-          ]
+          "$ref": "#/definitions/report-ethnicity-grid"
         },
         "Native Hawaiian or Other Pacific Islander": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-ethnicity-grid"
-            }
-          ]
+          "$ref": "#/definitions/report-ethnicity-grid"
         },
         "More Than One Race": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/report-ethnicity-grid"
-            }
-          ]
+          "$ref": "#/definitions/report-ethnicity-grid"
         },
         "male_count": {
           "type": "integer"
@@ -11357,12 +10217,7 @@
             "$ref": "#/definitions/job-output"
           }
         },
-        "containers": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object"
-          }
-        }
+        "containers": {}
       },
       "additionalProperties": false
     },
@@ -11372,12 +10227,8 @@
         "sessions_changed": {
           "type": "array",
           "items": {
-            "allOf": [
-              {
-                "type": "string",
-                "pattern": "^[a-fA-F0-9]{24}$"
-              }
-            ]
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$"
           }
         }
       },
@@ -11388,6 +10239,35 @@
     },
     "subject-age": {
       "type": "integer"
+    },
+    "subject-sex": {
+      "enum": [
+        "male",
+        "female",
+        "other",
+        "unknown",
+        null
+      ]
+    },
+    "subject-race": {
+      "enum": [
+        "American Indian or Alaska Native",
+        "Asian",
+        "Native Hawaiian or Other Pacific Islander",
+        "Black or African American",
+        "White",
+        "More Than One Race",
+        "Unknown or Not Reported",
+        null
+      ]
+    },
+    "subject-ethnicity": {
+      "enum": [
+        "Not Hispanic or Latino",
+        "Hispanic or Latino",
+        "Unknown or Not Reported",
+        null
+      ]
     },
     "subject-tags": {
       "type": "array",
@@ -11414,36 +10294,13 @@
           "$ref": "#/definitions/subject-age"
         },
         "sex": {
-          "type": "string",
-          "enum": [
-            "male",
-            "female",
-            "other",
-            "unknown",
-            null
-          ]
+          "$ref": "#/definitions/subject-sex"
         },
         "race": {
-          "type": "string",
-          "enum": [
-            "American Indian or Alaska Native",
-            "Asian",
-            "Native Hawaiian or Other Pacific Islander",
-            "Black or African American",
-            "White",
-            "More Than One Race",
-            "Unknown or Not Reported",
-            null
-          ]
+          "$ref": "#/definitions/subject-race"
         },
         "ethnicity": {
-          "type": "string",
-          "enum": [
-            "Not Hispanic or Latino",
-            "Hispanic or Latino",
-            "Unknown or Not Reported",
-            null
-          ]
+          "$ref": "#/definitions/subject-ethnicity"
         },
         "code": {
           "type": "string",
@@ -11483,36 +10340,13 @@
           "$ref": "#/definitions/subject-age"
         },
         "sex": {
-          "type": "string",
-          "enum": [
-            "male",
-            "female",
-            "other",
-            "unknown",
-            null
-          ]
+          "$ref": "#/definitions/subject-sex"
         },
         "race": {
-          "type": "string",
-          "enum": [
-            "American Indian or Alaska Native",
-            "Asian",
-            "Native Hawaiian or Other Pacific Islander",
-            "Black or African American",
-            "White",
-            "More Than One Race",
-            "Unknown or Not Reported",
-            null
-          ]
+          "$ref": "#/definitions/subject-race"
         },
         "ethnicity": {
-          "type": "string",
-          "enum": [
-            "Not Hispanic or Latino",
-            "Hispanic or Latino",
-            "Unknown or Not Reported",
-            null
-          ]
+          "$ref": "#/definitions/subject-ethnicity"
         },
         "code": {
           "type": "string",
@@ -11544,13 +10378,11 @@
       ]
     },
     "tag": {
-      "type": "object",
       "properties": {
         "value": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 32,
-          "x-sdk-positional": true
+          "maxLength": 32
         }
       },
       "additionalProperties": false,
@@ -11561,11 +10393,7 @@
     "tag-output-list": {
       "type": "array",
       "items": {
-        "allOf": [
-          {
-            "type": "string"
-          }
-        ]
+        "$ref": "#/definitions/tag"
       }
     },
     "user-preferences": {
@@ -11582,9 +10410,7 @@
         "created": {
           "type": "string"
         },
-        "last_used": {
-          "$ref": "#/definitions/common-timestamp"
-        }
+        "last_used": {}
       },
       "additionalProperties": false
     },
